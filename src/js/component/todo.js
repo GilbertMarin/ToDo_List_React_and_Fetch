@@ -6,9 +6,6 @@ export const TodoApp = () => {
 	let [lista, setLista] = useState([]);
 	let [tarea, setTarea] = useState("");
 
-	const minPassword = /^.{6,}$/;
-	const oneLetter = /\w*[a-zA-Z]\w*/;
-
 	useEffect(() => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/GilbertMarin", {
 			method: "POST",
@@ -18,8 +15,6 @@ export const TodoApp = () => {
 			}
 		})
 			.then(resp => {
-				//console.log("respuesta", resp);
-
 				fetch(
 					"https://assets.breatheco.de/apis/fake/todos/user/GilbertMarin",
 					{
@@ -31,7 +26,6 @@ export const TodoApp = () => {
 					}
 				)
 					.then(resp => {
-						//console.log("respuesta", resp);
 						return resp.json();
 					})
 					.then(data => {
@@ -39,23 +33,14 @@ export const TodoApp = () => {
 					})
 
 					.catch(err => {
-						//console.log("error", err);
+						console.log("error", err);
 					});
 			})
 
 			.catch(err => {
-				//console.log("error", err);
+				console.log("error", err);
 			});
 	}, []);
-
-	useEffect(() => {
-		if (!minPassword.test(tarea)) {
-			//console.error("No cumple con largo minimo de 6");
-		}
-		if (!oneLetter.test(tarea)) {
-			//console.error("Minimo una letra");
-		}
-	}, [tarea]);
 
 	const addTarea = tarea => {
 		if (tarea.key === "Enter") {
@@ -64,16 +49,16 @@ export const TodoApp = () => {
 				done: false
 			};
 			setLista([...lista, newObj]);
-			console.log(lista);
+
 			tarea.target.value = "";
 		}
 	};
 
 	const delTarea = pos => {
 		const tempList = [...lista];
-		//console.log("previo borrado", tempList);
+
 		tempList.splice(pos, 1);
-		//console.log("Lista temporal", tempList);
+
 		const methods = ["PUT", "DELETE"];
 		if (tempList.length > 0) {
 			fetch(
@@ -87,12 +72,10 @@ export const TodoApp = () => {
 				}
 			)
 				.then(resp => {
-					//console.log("Respuesta de borrado", resp);
 					setLista(tempList);
-					//console.log(lista);
 				})
 				.catch(error => {
-					//console.log("Error delete", error);
+					console.log("Error delete", error);
 				});
 		} else {
 			fetch(
@@ -106,12 +89,10 @@ export const TodoApp = () => {
 				}
 			)
 				.then(resp => {
-					//console.log("Respuesta de borrado", resp);
 					setLista(tempList);
-					//console.log(lista);
 				})
 				.catch(error => {
-					//console.log("Error delete", error);
+					console.log("Error delete", error);
 				});
 		}
 	};
@@ -131,7 +112,7 @@ export const TodoApp = () => {
 							onKeyDown={addTarea}
 							className="form-control"
 							type="text"
-							placeholder="Add a thing"
+							placeholder="Add a Task"
 							onChange={e => setTarea(e.target.value)}></input>
 						<br />
 						<ListItem list={newList} />
