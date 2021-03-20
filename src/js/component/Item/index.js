@@ -2,6 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 
 const Item = props => {
+	console.log("Item2: ", props.value);
 	return (
 		<li className="list-group-item" key={props.index}>
 			{props.value.label}

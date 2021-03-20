@@ -10,7 +10,7 @@ export const TodoApp = () => {
 	const oneLetter = /\w*[a-zA-Z]\w*/;
 
 	useEffect(() => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/manulabarca", {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/GilbertMarin", {
 			method: "POST",
 			body: JSON.stringify([]),
 			headers: {
@@ -18,10 +18,10 @@ export const TodoApp = () => {
 			}
 		})
 			.then(resp => {
-				console.log("respuesta", resp);
+				//console.log("respuesta", resp);
 
 				fetch(
-					"https://assets.breatheco.de/apis/fake/todos/user/manulabarca",
+					"https://assets.breatheco.de/apis/fake/todos/user/GilbertMarin",
 					{
 						method: "GET",
 
@@ -31,7 +31,7 @@ export const TodoApp = () => {
 					}
 				)
 					.then(resp => {
-						console.log("respuesta", resp);
+						//console.log("respuesta", resp);
 						return resp.json();
 					})
 					.then(data => {
@@ -39,40 +39,45 @@ export const TodoApp = () => {
 					})
 
 					.catch(err => {
-						console.log("error", err);
+						//console.log("error", err);
 					});
 			})
 
 			.catch(err => {
-				console.log("error", err);
+				//console.log("error", err);
 			});
 	}, []);
 
 	useEffect(() => {
 		if (!minPassword.test(tarea)) {
-			console.error("No cumple con largo minimo de 6");
+			//console.error("No cumple con largo minimo de 6");
 		}
 		if (!oneLetter.test(tarea)) {
-			console.error("Minimo una letra");
+			//console.error("Minimo una letra");
 		}
 	}, [tarea]);
 
 	const addTarea = tarea => {
 		if (tarea.key === "Enter") {
-			setLista([...lista, tarea.target.value]);
+			let newObj = {
+				label: tarea.target.value,
+				done: false
+			};
+			setLista([...lista, newObj]);
+			console.log(lista);
 			tarea.target.value = "";
 		}
 	};
 
 	const delTarea = pos => {
 		const tempList = [...lista];
-		console.log("previo borrado", tempList);
+		//console.log("previo borrado", tempList);
 		tempList.splice(pos, 1);
-		console.log("Lista temporal", tempList);
+		//console.log("Lista temporal", tempList);
 		const methods = ["PUT", "DELETE"];
 		if (tempList.length > 0) {
 			fetch(
-				"https://assets.breatheco.de/apis/fake/todos/user/manulabarca",
+				"https://assets.breatheco.de/apis/fake/todos/user/GilbertMarin",
 				{
 					method: methods[0],
 					headers: {
@@ -82,16 +87,16 @@ export const TodoApp = () => {
 				}
 			)
 				.then(resp => {
-					console.log("Respuesta de borrado", resp);
+					//console.log("Respuesta de borrado", resp);
 					setLista(tempList);
-					console.log(lista);
+					//console.log(lista);
 				})
 				.catch(error => {
-					console.log("Error delete", error);
+					//console.log("Error delete", error);
 				});
 		} else {
 			fetch(
-				"https://assets.breatheco.de/apis/fake/todos/user/manulabarca",
+				"https://assets.breatheco.de/apis/fake/todos/user/GilbertMarin",
 				{
 					method: methods[1],
 					headers: {
@@ -101,12 +106,12 @@ export const TodoApp = () => {
 				}
 			)
 				.then(resp => {
-					console.log("Respuesta de borrado", resp);
+					//console.log("Respuesta de borrado", resp);
 					setLista(tempList);
-					console.log(lista);
+					//console.log(lista);
 				})
 				.catch(error => {
-					console.log("Error delete", error);
+					//console.log("Error delete", error);
 				});
 		}
 	};
