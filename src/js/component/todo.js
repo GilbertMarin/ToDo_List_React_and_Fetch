@@ -43,6 +43,7 @@ export const TodoApp = () => {
 	}, []);
 
 	const addTarea = tarea => {
+		const ListaTemp = [...lista];
 		if (tarea.key === "Enter") {
 			let newObj = {
 				label: tarea.target.value,
@@ -53,6 +54,20 @@ export const TodoApp = () => {
 			tarea.target.value = "";
 		}
 	};
+	fetch("https://assets.breatheco.de/apis/fake/todos/user/GilbertMarin", {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(lista)
+	})
+		.then(resp => {
+			//setLista(lista);
+			console.log("Respuesta agregado correctamente", resp);
+		})
+		.catch(error => {
+			console.log("Error add", error);
+		});
 
 	const delTarea = pos => {
 		const tempList = [...lista];
@@ -123,3 +138,4 @@ export const TodoApp = () => {
 		</div>
 	);
 };
+
