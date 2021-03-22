@@ -112,6 +112,25 @@ export const TodoApp = () => {
 		}
 	};
 
+	const deleteAll = () => {
+		let emptyList = [];
+
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/shmaither", {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(emptyList)
+		})
+			.then(resp => {
+				console.log("Respuesta de DELETE inside deleteAll", resp);
+				setLista(emptyList);
+			})
+			.catch(error => {
+				console.log("Error delete", error);
+			});
+	};
+
 	const newList = lista.map((value, index) => (
 		<Item key={index} value={value} index={index} onClick={delTarea} />
 	));
@@ -135,7 +154,14 @@ export const TodoApp = () => {
 				</div>
 			</div>
 			<p>Total Items: {lista.length}</p>
+			<button
+				type="button"
+				className="btn btn-outline-secondary btn-sm mr-2"
+				onClick={() => deleteAll()}>
+				Delete All
+			</button>
 		</div>
 	);
 };
+
 
